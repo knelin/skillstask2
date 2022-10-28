@@ -39,20 +39,12 @@ def render_results():
     temp_max = data['main']['temp_max']
     created = datetime.now()
     created = datetime.timestamp(created)
+    created = '<a href="/result/'+str(created)+'">'+str(created)+'</a>'
     result = Result(location=location, temp=temp, feels_like=feels_like, timestamp=timestamp, icon_url=icon_url,
         weather=weather, temp_min=temp_min, temp_max=temp_max, created=created)
     db.session.add(result)
     db.session.commit()
     return redirect('/results')
-
-
-
-
-@ui_bp.route('/card', methods=['POST'])
-def render_card():
-    return render_template('result.html')
-
-
 
 
 
@@ -80,7 +72,7 @@ def list_results():
 def results_all():
     return {'data': [result.to_dict() for result in Result.query]}
 
-@ui_bp.route('/result', methods=['POST', 'GET'])
-def list_result():
-   result = Result.query.filter_by(created=1666738041.796629).first()
+@ui_bp.route('/result/<created>', methods=['POST', 'GET'])
+def list_result(created):
+   result = Result.query.filter_by(created=created).first()
    return render_template('result.html', result=result)
