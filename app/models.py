@@ -29,6 +29,3 @@ class Result(db.Model):
             'created': self.created
         }
 
-    #put a link on each row of the table.
-    #filter selected result data based on creation datetime.
-    #pass data to result route
